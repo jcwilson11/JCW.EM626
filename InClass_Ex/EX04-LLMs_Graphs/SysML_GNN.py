@@ -47,6 +47,7 @@ type_set.add('Generic')
 type_map = {t: i for i, t in enumerate(sorted(type_set))}
 rev_type_map = {v: k for k, v in type_map.items()}
 
+# Joris: parse nodes for id, name, type, and documentation
 for node in root.findall(".//node"):
     nid = node.attrib.get("id")
     name = node.attrib.get("name", "").strip()
