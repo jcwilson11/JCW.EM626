@@ -1,14 +1,3 @@
-
-#!/usr/bin/env python3
-"""
-Text comparison pipeline (Pro vs Con) — Steps 1-4
-
-1. clean
-2. sentiment
-3. bigrams
-4. lexdiv
-"""
-
 import argparse
 import csv
 import json
@@ -177,9 +166,6 @@ def bigram_stats(tokens: List[str], min_count: int = 2) -> List[Dict]:
     rows.sort(key=lambda r: (r["count"], r["pmi"]), reverse=True)
     return rows
 
-
-# ---------- CLI ----------
-
 def main():
     parser = argparse.ArgumentParser(description="Compare Pro/Con texts. Steps 1-4")
     parser.add_argument("--step", type=str, required=True, choices=["clean","sentiment","bigrams","lexdiv"])
@@ -191,7 +177,7 @@ def main():
     parser.add_argument("--domain-stopwords", nargs="*", default=["gig","economy"])
     parser.add_argument("--outdir", type=str, default="")
 
-    # steps 2-4
+    # steps w/cleaned inputs
     parser.add_argument("--cleaned-pros", type=str)
     parser.add_argument("--cleaned-cons", type=str)
 
@@ -204,11 +190,9 @@ def main():
 
     args = parser.parse_args()
 
-    # outdir resolution
     if args.outdir:
         outdir = Path(args.outdir).expanduser().resolve()
     else:
-        # try infer from given files
         base = args.pros or args.cleaned_pros or "."
         base = Path(base).expanduser()
         outdir = base.parent.resolve() if base.is_file() else base.resolve()
@@ -300,7 +284,6 @@ def main():
         }
         (outdir / "lexical_diversity.json").write_text(json.dumps(out, indent=2), encoding="utf-8")
 
-        # CSV
         with (outdir / "lexical_diversity.csv").open("w", encoding="utf-8", newline="") as f:
             writer = csv.DictWriter(f, fieldnames=["side","total_tokens","unique_tokens","lexical_diversity"])
             writer.writeheader()
