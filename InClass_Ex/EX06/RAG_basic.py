@@ -24,7 +24,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 
 # ---------- SETTINGS ----------
-file_path = "document.txt"   # Can also be "whitepaper_excerpt.txt"
+file_path = "document.md"   # Can also be "whitepaper_excerpt.txt"
 db_path = "rag_risk_local.duckdb"
 model_name = "sentence-transformers/all-MiniLM-L6-v2"
 
