@@ -1,0 +1,21 @@
+Enter your query (e.g., 'What are the main AI risks?'):
+> Which mitigations are discussed?
+
+--- Top Retrieved Chunks ---
+
+[Chunk 14 | Similarity: 0.4480000138282776]
+Response (OEDR) tasks in transportation systems, makes assessing functional interdependencies of components and subsystems on overall vehicle and system safety outcomes more challenging. Based on how requirements are met (or not), the risk assessment process motivates the mitigation of hazards, which is explained in the following section. 12 RTCA DO-178C, Software Considerations in Airborne Systems and Equipment Certification, 2012. Understanding AI Risks in Transportation | September 2024 16 Mitigating AI Risks Risk mitigation is the process of reducing the probability and/or severity of haza
+
+-------------------------------
+
+[Chunk 17 | Similarity: 0.4180000126361847]
+factors that are in place to avoid worst-case outcomes. Given the diverse sources and effects of hazards, it is recommended to recognize the importance of using multiple types of approaches to maintain and assure safety. Table 3 provides examples of hazard mitigation approaches and their goals. Table 3. Examples of hazard mitigation approaches. Approach Type Practices Goal of Approach Implementation Practices Monitoring Features Architectural Features Hazard/Safety Approaches Model validation and explainability Run-time assurance, health management, self-diagnosis Catch design and implementati
+
+-------------------------------
+
+[Chunk 16 | Similarity: 0.4099999964237213]
+would cause functional failures in the system, which can be achieved by reducing their probability or severity, as illustrated in Figure 10. Figure 10. Mitigating AI risks during component and system design or implementation. Improved AI Performance Unmitigated Failure Risk y t i r e v e S h g h i t e a r e d o m w o l Combined Mitigation Improved Redundancy low moderate high Probability In the context of component risk mitigation, reducing the probability of component failure involves improving the performance of the AI components over a wide range of scenarios (including known failure modes,
+
+-------------------------------
+
+Interpret the retrieved text and identify relevant risks, likelihoods, and mitigation strategies.  
