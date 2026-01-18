@@ -1,0 +1,92 @@
+You are a systems integration risk analyst.
+You read technical manuals and extract a machine-readable graph of components and dependencies.
+
+Extract components and dependencies from the following system description.
+
+Return ONLY valid JSON with this exact schema (no commentary, no markdown):
+
+{
+  "nodes": [
+    {
+      "id": "C1",
+      "name": "Power Distribution Unit",
+      "type": "hardware|software|data|interface|human|other",
+      "description": "1-3 sentence description"
+    }
+  ],
+  "edges": [
+    {
+      "source": "C1",
+      "target": "C5",
+      "relation": "short_verb_phrase",
+      "rationale": "1–2 sentence justification"
+    }
+  ]
+}
+
+Rules:
+- Use short, stable IDs within this chunk (C1, C2, ...).
+- Only create edges where there is a clear integration dependency
+  (data, control, power, timing, safety).
+- Prefer specific relation phrases like "sends_telemetry_to",
+  "reads_from", "controls", "supplies_power_to".
+
+TEXT CHUNK START
+----------------
+oller
+    * Ethernet/Wi-Fi link to warehouse network
+    * GPIO/serial interfaces for safety relays and E-stops
+
+* **F2 – Robot Firmware Controller**
+
+  * **Type:** Software (embedded)
+  * **Responsibilities:** Real-time control of actuators, execution of motion primitives, monitoring of safety inputs, and watchdog supervision.
+  * **Upstream dependencies:** Receives motion commands and trajectories from Path Planning & Traffic Manager; receives configuration from Configuration Store.
+  * **Downstream dependencies:** Publishes robot pose, battery state, error codes to Fleet Supervisor and Monitoring.
+  * **Interfaces:**
+
+    * gRPC or Protobuf over TCP for command/telemetry between robots and Fleet Supervisor
+    * Local CAN bus protocol to motor drivers
+    * Safety I/O to hardwired E-stop chain
+
+* **F3 – Onboard Perception Stack**
+
+  * **Type:** Software
+  * **Responsibilities:** Fuse Lidar, camera, and IMU data to detect obstacles, pallets, and humans near the robot; signal local stop/slow behaviors.
+  * **Upstream dependencies:** Consumes raw sensor streams from Robot Platform Hardware.
+  * **Downstream dependencies:** Sends obstacle maps and hazard flags to Robot Firmware and Localization & Mapping.
+  * **Interfaces:**
+
+    * ROS2 topics on the robot for sensor and perception messages
+    * Shared memory between perception processes and control loops
+
+* **F4 – Localization & Mapping Service**
+
+  * **Type:** Software service (edge or central, depending on design)
+  * **Responsibilities:** Maintain global map of the warehouse, compute robot poses, and provide map updates to path planning.
+  * **Upstream dependencies:** Receives sensor-derived pose estimates from robots and warehouse layout from Slotting & Layout Model Store.
+  * **Downstream dependencies:** Provides map tiles and robot pose estimates to Path Planning & Traffic Manager and Fleet Supervisor.
+  * **Interfaces:**
+
+    * gRPC API: `GetRobotPose(robot_id)`
+    * Message queue topic: `mapping.map_updates` for asynchronous map changes
+
+* **F5 – Path Planning & Traffic Manager**
+
+  * **Type:** Software service
+  * **Responsibilities:** Compute collision-free paths, manage traffic rules (right-of-way, one-way aisles), and resolve contention between robots.
+  * **Upstream dependencies:** Requires live robot positions from Localization, tasks from Fleet Supervisor, and zone safety data from Zone Safety Controller.
+  * **Downstream dependencies:** Issues trajectory segments and speed limits to Robot Firmware; reports conflicts back to Exception Handling Service.
+  * **Interfaces:**
+
+    * REST API `/plan-route` for route requests
+    * Subscription to `safety.zone_status` topic
+    * gRPC stream to each robot for continuous trajectory updates
+
+* **F6 – Fleet Supervisor Service**
+
+  * **Type:** Software service
+  * **Responsibilities:** Assign tasks to robots, track their execution, enforce fleet-level policies (max robots per zone, charging thresholds).
+  * **Upstream dependencies:** Recei
+----------------
+TEXT CHUNK END

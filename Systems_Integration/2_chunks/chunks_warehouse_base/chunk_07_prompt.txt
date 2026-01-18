@@ -1,0 +1,104 @@
+You are a systems integration risk analyst.
+You read technical manuals and extract a machine-readable graph of components and dependencies.
+
+Extract components and dependencies from the following system description.
+
+Return ONLY valid JSON with this exact schema (no commentary, no markdown):
+
+{
+  "nodes": [
+    {
+      "id": "C1",
+      "name": "Power Distribution Unit",
+      "type": "hardware|software|data|interface|human|other",
+      "description": "1-3 sentence description"
+    }
+  ],
+  "edges": [
+    {
+      "source": "C1",
+      "target": "C5",
+      "relation": "short_verb_phrase",
+      "rationale": "1–2 sentence justification"
+    }
+  ]
+}
+
+Rules:
+- Use short, stable IDs within this chunk (C1, C2, ...).
+- Only create edges where there is a clear integration dependency
+  (data, control, power, timing, safety).
+- Prefer specific relation phrases like "sends_telemetry_to",
+  "reads_from", "controls", "supplies_power_to".
+
+TEXT CHUNK START
+----------------
+endencies:** Receives requests from WMS/ERP, HMI browsers, and internal services.
+  * **Downstream dependencies:** Routes to WMS/ERP Gateway, Workflow Orchestrator, Monitoring APIs, etc.
+  * **Interfaces:**
+
+    * HTTPS endpoints (public and internal) with mutual TLS
+    * Integration with RBAC for authN/authZ
+
+* **I3 – Configuration & Feature Flag Store**
+
+  * **Type:** Data store / configuration service
+  * **Responsibilities:** Provide centralized configuration (routes, safety thresholds, robot profiles) and runtime feature toggles.
+  * **Upstream dependencies:** Admin tools and CI/CD pipelines to update configuration.
+  * **Downstream dependencies:** Robot Firmware, Fleet Supervisor, Workflow Orchestrator, Safety Controller.
+  * **Interfaces:**
+
+    * Key/value API `/config/{key}`
+    * Watch/subscribe interface for dynamic updates (e.g., gRPC stream)
+
+* **I4 – Metrics & Logging Pipeline**
+
+  * **Type:** Software infrastructure
+  * **Responsibilities:** Collect metrics, logs, and traces from all services and robots; provide search and dashboards.
+  * **Upstream dependencies:** Receives log/metric streams from applications, robots, and infrastructure.
+  * **Downstream dependencies:** System Health Dashboard, alerting tools, reporting.
+  * **Interfaces:**
+
+    * Syslog/Fluentd/OTel collectors over UDP/TCP
+    * Time-series DB query API for dashboards
+
+* **I5 – System Health Dashboard**
+
+  * **Type:** Software
+  * **Responsibilities:** Visualize system health, SLA adherence, error rates, and resource usage.
+  * **Upstream dependencies:** Queries Metrics & Logging Pipeline and reads inventory/order KPIs from Data Warehouse.
+  * **Downstream dependencies:** Feeds alerts to on-call systems and HMI Console.
+  * **Interfaces:**
+
+    * Web UI via API Gateway
+    * Alert webhooks (e.g., to PagerDuty/Slack)
+
+* **I6 – Time Sync Service**
+
+  * **Type:** Infrastructure service
+  * **Responsibilities:** Maintain consistent time across robots, servers, and safety controllers.
+  * **Upstream dependencies:** External NTP/PTP sources or GPS time.
+  * **Downstream dependencies:** All time-stamping components (robots, message broker, databases).
+  * **Interfaces:**
+
+    * NTP/PTP over IP networks
+    * Monitoring hooks into Metrics pipeline
+
+* **I7 – Historical Data Warehouse**
+
+  * **Type:** Data store (analytical)
+  * **Responsibilities:** Store historical orders, tasks, robot telemetry, and incidents for analytics, optimization, and audit.
+  * **Upstream dependencies:** Ingests from Inventory CDC, Obstacle & Incident Event Bus, Metrics Pipeline.
+  * **Downstream dependencies:** BI tools, training datasets for optimization models, Simulation Station.
+  * **Interfaces:**
+
+    * Batch/stream ingestion endpoints
+    * SQL/analytical query endpoints
+
+* **I8 – Edge Compute Nodes**
+
+  * **Type:** Hardware + virtualization
+  * **Responsibilities:** Host latency-sensitive services (localization, safety, fleet control) within the warehouse.
+  * **Upstream dependencies:*
+----------------
+TEXT CHUNK END

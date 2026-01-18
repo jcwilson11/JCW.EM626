@@ -1,0 +1,58 @@
+ety Controller** sends `safety.zone_status` updates to Path Planning, Fleet Supervisor, and HMI.
+  * All incidents and obstacles go via **Obstacle & Incident Event Bus** to **Exception Handling** and **Monitoring**.
+
+* **Inventory State & Reporting**
+
+  * Robot/HMI confirmations update **Inventory State Store**, which is replicated to WMS via the **WMS/ERP Gateway**.
+  * **Inventory State Store** and incident/event streams flow into **Historical Data Warehouse** for analytics.
+
+* **Operator Interaction**
+
+  * Operators use **HMI Console** via **API Gateway**; access is mediated by **RBAC Service**.
+  * Commands (e.g., pause zone, reroute task) are sent to **Workflow Orchestrator**, **Fleet Supervisor**, or **Zone Safety Controller** as appropriate.
+
+---
+
+## Integration Risks (Failure Modes & Impacts)
+
+1. **Message Broker Partition / Latency Spike**
+
+   * **Description:** The **Message Broker** experiences a partition or severe lag; task events or safety status updates are delayed or dropped.
+   * **Impact:**
+
+     * Robots may continue executing stale missions because updated tasks or safety zone changes are not received promptly.
+     * Workflow Orchestrator may time out tasks and generate false exceptions.
+     * Risk of reduced throughput and, in worst cases, robots entering zones recently marked unsafe.
+
+2. **Schema / Contract Drift Between WMS and Order Ingestion**
+
+   * **Description:** External WMS/ERP modifies fields or semantics of order messages without aligned changes in **Order Ingestion Adapter**.
+   * **Impact:**
+
+     * Orders could be rejected or misinterpreted (wrong SKUs, quantities, or priority flags).
+     * Inventory State Store may be updated inconsistently, leading to apparent “missing” inventory.
+     * Operators may see frequent manual exceptions and reduced trust in automation.
+
+3. **Time Synchronization Drift**
+
+   * **Description:** **Time Sync Service** fails or some robots/servers drift significantly in time.
+   * **Impact:**
+
+     * Event ordering becomes ambiguous; Safety/Exception Handling may mis-classify events.
+     * Data Warehouse analyses and replay/simulation become unreliable.
+     * Debugging incidents becomes extremely difficult, lengthening downtime and audits.
+
+4. **Safety Sensor–Robot Control Mismatch**
+
+   * **Description:** **Zone Safety Controller** and Fleet/Robot control interfaces are misconfigured (e.g., wrong zone IDs, missing subscriptions).
+   * **Impact:**
+
+     * A zone marked unsafe by fixed sensors may not correctly propagate to robot controllers, leaving robots moving where they should stop.
+     * Conversely, zones may be erroneously marked unsafe, halting operations unnecessarily and reducing throughput.
+
+5. **Configuration Inconsistency Across Subsystems**
+
+   * **Description:** **Configuration & Feature Flag Store** fails to correctly propagate or validate updates (e.g., layout changes, speed limits).
+   * **Impact:**
+
+     * Path Planning may use a different layout than Localizatio

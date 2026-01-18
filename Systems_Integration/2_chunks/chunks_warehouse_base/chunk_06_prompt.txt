@@ -1,0 +1,103 @@
+You are a systems integration risk analyst.
+You read technical manuals and extract a machine-readable graph of components and dependencies.
+
+Extract components and dependencies from the following system description.
+
+Return ONLY valid JSON with this exact schema (no commentary, no markdown):
+
+{
+  "nodes": [
+    {
+      "id": "C1",
+      "name": "Power Distribution Unit",
+      "type": "hardware|software|data|interface|human|other",
+      "description": "1-3 sentence description"
+    }
+  ],
+  "edges": [
+    {
+      "source": "C1",
+      "target": "C5",
+      "relation": "short_verb_phrase",
+      "rationale": "1–2 sentence justification"
+    }
+  ]
+}
+
+Rules:
+- Use short, stable IDs within this chunk (C1, C2, ...).
+- Only create edges where there is a clear integration dependency
+  (data, control, power, timing, safety).
+- Prefer specific relation phrases like "sends_telemetry_to",
+  "reads_from", "controls", "supplies_power_to".
+
+TEXT CHUNK START
+----------------
+s`
+    * Schema registry enforcing event formats
+
+* **S4 – Human–Machine Interface (HMI) Console**
+
+  * **Type:** Software / human role
+  * **Responsibilities:** Provide operators with maps, robot states, alerts, and controls (pause zone, reroute tasks, acknowledge alarms).
+  * **Upstream dependencies:** Reads status from Fleet Supervisor, Workflow Orchestrator, Safety Controller, Monitoring.
+  * **Downstream dependencies:** Issues operator commands to Exception Handling Service and Workflow Orchestrator.
+  * **Interfaces:**
+
+    * Web application served via API Gateway
+    * WebSocket/SSE channel for real-time telemetry
+    * Role-based access via RBAC Service
+
+* **S5 – Role-Based Access Control (RBAC) Service**
+
+  * **Type:** Software service
+  * **Responsibilities:** Manage users, roles, and permissions for all interactive and API access.
+  * **Upstream dependencies:** Integrates with corporate identity provider (IdP) or LDAP/AD.
+  * **Downstream dependencies:** Issues tokens/claims used by API Gateway, HMI Console, and WMS/ERP Gateway.
+  * **Interfaces:**
+
+    * OAuth2/OpenID Connect endpoints `/auth/authorize`, `/auth/token`
+    * SCIM/LDAP sync to enterprise IdP
+
+* **S6 – Training & Simulation Station**
+
+  * **Type:** Software + human role
+  * **Responsibilities:** Allow operators to rehearse workflows and safety procedures in simulated environments before deploying changes.
+  * **Upstream dependencies:** Uses layout data from Slotting & Layout Model Store and historical scenarios from Data Warehouse.
+  * **Downstream dependencies:** Generates test runs for Simulation/Test Harness in Infrastructure and logs results for audit.
+  * **Interfaces:**
+
+    * Desktop or web client UI
+    * Batch job interface to Simulation/Test Harness (e.g., REST `/simulate`)
+
+---
+
+### 4. Infrastructure & Data Services Subsystem Components
+
+* **I1 – Message Broker**
+
+  * **Type:** Software infrastructure (e.g., Kafka, RabbitMQ)
+  * **Responsibilities:** Provide durable, scalable pub/sub for events, telemetry, and task messages.
+  * **Upstream dependencies:** N/A (foundational service); depends only on underlying compute/storage.
+  * **Downstream dependencies:** All event-driven services (Fleet Supervisor, Orchestrator, Safety, Monitoring).
+  * **Interfaces:**
+
+    * Internal TLS-secured brokers `kafka1:9093` etc.
+    * Standard client libraries/protocols
+
+* **I2 – API Gateway**
+
+  * **Type:** Software infrastructure
+  * **Responsibilities:** Terminate external/internal HTTP traffic, handle authentication, rate limiting, and routing to backend services.
+  * **Upstream dependencies:** Receives requests from WMS/ERP, HMI browsers, and internal services.
+  * **Downstream dependencies:** Routes to WMS/ERP Gateway, Workflow Orchestrator, Monitoring APIs, etc.
+  * **Interfaces:**
+
+    * HTTPS endpoints (public and internal) with mutual TLS
+    * Integration with RBAC for authN/authZ
+
+* **I3 – Configuration & Feature Flag Store**
+
+  * **Type:** Data store / configuration
+----------------
+TEXT CHUNK END

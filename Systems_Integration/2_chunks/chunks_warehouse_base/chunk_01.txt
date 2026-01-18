@@ -1,0 +1,50 @@
+---
+title: "Autonomous Warehouse Control System"
+source: "ChatGPT"
+created: 2025-12-07T15:14:53
+---
+## Overview
+
+This autonomous warehouse control system is a system-of-systems that coordinates a mixed fleet of mobile robots, fixed infrastructure, and enterprise applications to move inventory safely and efficiently. Its primary mission is to receive work from an external WMS/ERP, decompose that work into executable tasks, assign those tasks to autonomous vehicles (AVs), and ensure that all movements are safe, traceable, and optimized for throughput.
+
+The system operates in a live warehouse environment with humans, pallet jacks, forklifts, and stationary storage systems. It must integrate with existing IT systems, comply with safety regulations, and tolerate individual component failures without losing inventory integrity or creating unsafe conditions. The architecture is therefore modular, message-oriented, and heavily instrumented.
+
+---
+
+## Subsystems
+
+1. **Autonomous Vehicle Fleet Subsystem**
+   Manages the fleet of mobile robots, including navigation, localization, onboard perception, path planning, and charging. Provides real-time execution of movement commands while enforcing local safety constraints.
+
+2. **Warehouse Orchestration Subsystem**
+   Bridges between enterprise systems and the robot fleet. It ingests orders, decomposes them into tasks, tracks inventory state, and orchestrates workflows across robots and fixed resources.
+
+3. **Perception, Safety & Access Control Subsystem**
+   Monitors the physical environment using fixed sensors, enforces safe operating zones, mediates human access, and provides operators with visibility and controls for interventions.
+
+4. **Infrastructure & Data Services Subsystem**
+   Provides the shared technical backbone: messaging, APIs, configuration, logging, monitoring, time synchronization, and historical data storage for analytics and audit.
+
+---
+
+## Components
+
+### 1. Autonomous Vehicle Fleet Subsystem Components
+
+* **F1 – Robot Platform Hardware**
+
+  * **Type:** Hardware
+  * **Responsibilities:** Provide mobility, power, basic I/O (Lidar, cameras, encoders), and compute to execute onboard control loops.
+  * **Upstream dependencies (plain English):** Receives power and network connectivity from warehouse infrastructure; receives commands from robot firmware and fleet supervisor.
+  * **Downstream dependencies (plain English):** Sends sensor data and state telemetry to onboard perception, localization, and backend monitoring.
+  * **Interfaces:**
+
+    * CAN bus between motors, motor controllers, and embedded controller
+    * Ethernet/Wi-Fi link to warehouse network
+    * GPIO/serial interfaces for safety relays and E-stops
+
+* **F2 – Robot Firmware Controller**
+
+  * **Type:** Software (embedded)
+  * **Responsibilities:** Real-time control of actuators, execution of motion primitives, monitoring of safety inputs, and watchdog supervision.
+  * **Upstream dependencies:** Receives motion commands and trajectori

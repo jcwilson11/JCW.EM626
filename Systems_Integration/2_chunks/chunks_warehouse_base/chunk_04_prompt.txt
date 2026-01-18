@@ -1,0 +1,99 @@
+You are a systems integration risk analyst.
+You read technical manuals and extract a machine-readable graph of components and dependencies.
+
+Extract components and dependencies from the following system description.
+
+Return ONLY valid JSON with this exact schema (no commentary, no markdown):
+
+{
+  "nodes": [
+    {
+      "id": "C1",
+      "name": "Power Distribution Unit",
+      "type": "hardware|software|data|interface|human|other",
+      "description": "1-3 sentence description"
+    }
+  ],
+  "edges": [
+    {
+      "source": "C1",
+      "target": "C5",
+      "relation": "short_verb_phrase",
+      "rationale": "1–2 sentence justification"
+    }
+  ]
+}
+
+Rules:
+- Use short, stable IDs within this chunk (C1, C2, ...).
+- Only create edges where there is a clear integration dependency
+  (data, control, power, timing, safety).
+- Prefer specific relation phrases like "sends_telemetry_to",
+  "reads_from", "controls", "supplies_power_to".
+
+TEXT CHUNK START
+----------------
+with task DAG
+
+* **O3 – Task Allocator/Optimizer**
+
+  * **Type:** Software service
+  * **Responsibilities:** Assign tasks to robots based on location, battery, load capacity, and SLAs; optimize for throughput and travel distance.
+  * **Upstream dependencies:** Receives pending tasks from Workflow Orchestrator and robot status from Fleet Supervisor.
+  * **Downstream dependencies:** Sends assignment decisions to Fleet Supervisor and updates Inventory State Store with reserved inventory.
+  * **Interfaces:**
+
+    * gRPC API `AllocateTasks(stream TaskRequest)`
+    * Subscription to `robots.status` topic
+
+* **O4 – Inventory State Store**
+
+  * **Type:** Data store (transactional)
+  * **Responsibilities:** Maintain authoritative view of inventory locations, quantities, and reservations across the warehouse.
+  * **Upstream dependencies:** Receives pick/put confirmations from robots/HMI and external adjustments from WMS/ERP.
+  * **Downstream dependencies:** Serves reads to Task Decomposition Engine, Task Allocator, and WMS/ERP gateway.
+  * **Interfaces:**
+
+    * Relational DB (e.g., PostgreSQL) accessed via internal ORM/API
+    * Change-data-capture (CDC) stream on topic `inventory.changes`
+
+* **O5 – Workflow Orchestrator**
+
+  * **Type:** Software service (stateful workflow engine)
+  * **Responsibilities:** Model and execute multi-step workflows (picking, cycle counting, replenishment), handle retries, and escalate exceptions.
+  * **Upstream dependencies:** Consumes task DAGs from Task Decomposition Engine and exception events from Exception Handling Service.
+  * **Downstream dependencies:** Issues executable tasks to Task Allocator, updates order status for WMS.
+  * **Interfaces:**
+
+    * BPMN-style workflow definitions stored in Configuration Store
+    * REST API `/workflows/{id}`
+    * Message topic `workflows.events`
+
+* **O6 – Slotting & Layout Model Store**
+
+  * **Type:** Data store
+  * **Responsibilities:** Store warehouse layout (aisles, racks, zones) and slotting rules.
+  * **Upstream dependencies:** Admin tools / HMI for layout updates, CAD imports.
+  * **Downstream dependencies:** Provides geometry and constraints to Localization & Mapping and Path Planning.
+  * **Interfaces:**
+
+    * REST API `/layout/map`
+    * File import interface for CAD (e.g., DXF) via SFTP or object storage
+
+* **O7 – WMS/ERP Interface Gateway**
+
+  * **Type:** Software service / interface
+  * **Responsibilities:** Present a stable, versioned API to external WMS/ERP systems and hide internal architectural changes.
+  * **Upstream dependencies:** Receives HTTP/SOAP/API calls from WMS/ERP.
+  * **Downstream dependencies:** Routes requests to Order Ingestion, Inventory State Store, Workflow Orchestrator.
+  * **Interfaces:**
+
+    * Public REST API `/api/v1/orders`, `/api/v1/inventory`
+    * Authentication via RBAC Service (OAuth2/JWT)
+
+* **O8 – Exception Handling Service**
+
+  * **Type:** Software service
+  * **Responsibilities:** Aggregate and classify exceptions (blocked paths, i
+----------------
+TEXT CHUNK END

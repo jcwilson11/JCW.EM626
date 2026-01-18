@@ -1,0 +1,64 @@
+dencies:** BI tools, training datasets for optimization models, Simulation Station.
+  * **Interfaces:**
+
+    * Batch/stream ingestion endpoints
+    * SQL/analytical query endpoints
+
+* **I8 – Edge Compute Nodes**
+
+  * **Type:** Hardware + virtualization
+  * **Responsibilities:** Host latency-sensitive services (localization, safety, fleet control) within the warehouse.
+  * **Upstream dependencies:** Facility power and network, configuration from Config Store.
+  * **Downstream dependencies:** Hosts Fleet Supervisor, Path Planning, Mapping; connects to robots and sensors.
+  * **Interfaces:**
+
+    * Redundant Ethernet to robots and sensors
+    * Management interface (IPMI/Redfish) for remote operations
+
+* **I9 – Backup & Recovery Service**
+
+  * **Type:** Software service
+  * **Responsibilities:** Perform scheduled backups of critical data (inventory DB, configuration, layouts) and support restore procedures.
+  * **Upstream dependencies:** Access to data stores (Inventory, Config, Layout, Warehouse).
+  * **Downstream dependencies:** Provides restore artifacts to DBs and services during disaster recovery.
+  * **Interfaces:**
+
+    * Object storage APIs for backup artifacts
+    * Admin UI/API for initiating and monitoring restores
+
+* **I10 – Simulation/Test Harness**
+
+  * **Type:** Software service
+  * **Responsibilities:** Emulate robots, sensors, and WMS interactions to validate new versions of control software and configurations.
+  * **Upstream dependencies:** Receives scenarios from Training & Simulation Station and CI pipelines.
+  * **Downstream dependencies:** Produces test results and logs to Data Warehouse and Metrics Pipeline.
+  * **Interfaces:**
+
+    * REST API `/simulate/run`
+    * Virtual message queues matching production topics
+
+---
+
+## Interfaces and Data Flows (High Level)
+
+* **Enterprise → Warehouse Orchestration**
+
+  * WMS/ERP calls **WMS/ERP Gateway** via HTTPS REST / SOAP.
+  * **Order Ingestion Adapter** parses and optionally places messages on `orders.raw` topic, which are normalized to `orders.normalized`.
+
+* **Order → Tasks → Robots**
+
+  * **Task Decomposition Engine** converts orders into tasks and publishes to `tasks.generated`.
+  * **Workflow Orchestrator** sequences tasks; **Task Allocator** assigns them to robots based on fleet state from **Fleet Supervisor**.
+  * **Fleet Supervisor** issues missions to **Path Planning & Traffic Manager**, which streams trajectories to **Robot Firmware**.
+
+* **Physical Environment Sensing**
+
+  * Robots’ **Onboard Perception** and **Fixed Safety Lidar** generate obstacle and zone events.
+  * **Zone Safety Controller** sends `safety.zone_status` updates to Path Planning, Fleet Supervisor, and HMI.
+  * All incidents and obstacles go via **Obstacle & Incident Event Bus** to **Exception Handling** and **Monitoring**.
+
+* **Inventory State & Reporting**
+
+  * Robot/HMI confirmations update **Inventory State Store**, which is replicated to WMS via the **WMS/ERP Gateway**.
+  * **Inventory State Store**

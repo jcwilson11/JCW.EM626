@@ -1,0 +1,66 @@
+You are a systems integration risk analyst.
+You read technical manuals and extract a machine-readable graph of components and dependencies.
+
+Extract components and dependencies from the following system description.
+
+Return ONLY valid JSON with this exact schema (no commentary, no markdown):
+
+{
+  "nodes": [
+    {
+      "id": "C1",
+      "name": "Power Distribution Unit",
+      "type": "hardware|software|data|interface|human|other",
+      "description": "1-3 sentence description"
+    }
+  ],
+  "edges": [
+    {
+      "source": "C1",
+      "target": "C5",
+      "relation": "short_verb_phrase",
+      "rationale": "1–2 sentence justification"
+    }
+  ]
+}
+
+Rules:
+- Use short, stable IDs within this chunk (C1, C2, ...).
+- Only create edges where there is a clear integration dependency
+  (data, control, power, timing, safety).
+- Prefer specific relation phrases like "sends_telemetry_to",
+  "reads_from", "controls", "supplies_power_to".
+
+TEXT CHUNK START
+----------------
+* Conversely, zones may be erroneously marked unsafe, halting operations unnecessarily and reducing throughput.
+
+5. **Configuration Inconsistency Across Subsystems**
+
+   * **Description:** **Configuration & Feature Flag Store** fails to correctly propagate or validate updates (e.g., layout changes, speed limits).
+   * **Impact:**
+
+     * Path Planning may use a different layout than Localization or Inventory; robots could attempt to travel through non-existent aisles.
+     * Mixed configurations (some robots updated, others not) create non-deterministic behavior and intermittent errors.
+     * Rollback procedures may be slow or unclear, leading to extended degraded operation.
+
+6. **Inventory State Divergence Between Warehouse System and WMS**
+
+   * **Description:** Failures in the WMS/ERP Interface Gateway, CDC streams, or error handling during peak load cause missed or duplicated updates.
+   * **Impact:**
+
+     * WMS may show inventory that is not physically present or vice versa.
+     * Subsequent orders are planned on incorrect assumptions, leading to more exceptions and manual re-work.
+     * Regulatory or customer audit concerns if traceability is lost.
+
+7. **Simulation vs. Production Environment Drift**
+
+   * **Description:** **Simulation/Test Harness** does not accurately mirror production message schemas, configurations, or load patterns.
+   * **Impact:**
+
+     * Changes that pass simulation can still fail in production due to untested integration realities.
+     * Over-confidence in tests can lead to riskier rollouts and more disruptive incidents.
+
+This mini-manual provides a structured baseline for further design artifacts (interface specs, safety cases, test plans). You can extend any component into a deeper spec (e.g., message schemas or state machines) as a next step.
+----------------
+TEXT CHUNK END

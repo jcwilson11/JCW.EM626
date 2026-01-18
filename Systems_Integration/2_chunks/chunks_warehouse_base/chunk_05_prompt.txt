@@ -1,0 +1,100 @@
+You are a systems integration risk analyst.
+You read technical manuals and extract a machine-readable graph of components and dependencies.
+
+Extract components and dependencies from the following system description.
+
+Return ONLY valid JSON with this exact schema (no commentary, no markdown):
+
+{
+  "nodes": [
+    {
+      "id": "C1",
+      "name": "Power Distribution Unit",
+      "type": "hardware|software|data|interface|human|other",
+      "description": "1-3 sentence description"
+    }
+  ],
+  "edges": [
+    {
+      "source": "C1",
+      "target": "C5",
+      "relation": "short_verb_phrase",
+      "rationale": "1–2 sentence justification"
+    }
+  ]
+}
+
+Rules:
+- Use short, stable IDs within this chunk (C1, C2, ...).
+- Only create edges where there is a clear integration dependency
+  (data, control, power, timing, safety).
+- Prefer specific relation phrases like "sends_telemetry_to",
+  "reads_from", "controls", "supplies_power_to".
+
+TEXT CHUNK START
+----------------
+ERP.
+  * **Downstream dependencies:** Routes requests to Order Ingestion, Inventory State Store, Workflow Orchestrator.
+  * **Interfaces:**
+
+    * Public REST API `/api/v1/orders`, `/api/v1/inventory`
+    * Authentication via RBAC Service (OAuth2/JWT)
+
+* **O8 – Exception Handling Service**
+
+  * **Type:** Software service
+  * **Responsibilities:** Aggregate and classify exceptions (blocked paths, inventory mismatches, robot faults), trigger workflows or human interventions.
+  * **Upstream dependencies:** Consumes events from Fleet Supervisor, Path Planning, Safety Controller, and HMI.
+  * **Downstream dependencies:** Notifies Workflow Orchestrator of paused/failed tasks and pushes alerts to HMI Console.
+  * **Interfaces:**
+
+    * Message topic `exceptions.events`
+    * REST API `/exceptions/{id}`
+    * WebSocket to HMI Console for live alerts
+
+---
+
+### 3. Perception, Safety & Access Control Subsystem Components
+
+* **S1 – Fixed Safety Lidar Grid**
+
+  * **Type:** Hardware
+  * **Responsibilities:** Monitor high-risk zones (crossings, docks) for human or forklift presence independent of robot perception.
+  * **Upstream dependencies:** Receives power and physical mounting from facility infrastructure.
+  * **Downstream dependencies:** Sends zone occupancy signals to Zone Safety Controller.
+  * **Interfaces:**
+
+    * Hardwired safety relays or SIL-rated fieldbus (e.g., Profisafe)
+    * Ethernet for diagnostic/status telemetry
+
+* **S2 – Zone Safety Controller**
+
+  * **Type:** Software / safety PLC
+  * **Responsibilities:** Combine fixed sensor inputs (Lidar, light curtains, E-stops) to compute safe/unsafe zone states and enforce access rules.
+  * **Upstream dependencies:** Receives sensor inputs from Fixed Safety Lidar Grid and E-stop circuits.
+  * **Downstream dependencies:** Broadcasts zone states to Path Planning, Fleet Supervisor, and HMI; triggers robot slow/stop commands.
+  * **Interfaces:**
+
+    * Safety fieldbus to sensors and E-stops
+    * Message topic `safety.zone_status`
+    * Digital outputs to safety relays on robot charging areas
+
+* **S3 – Obstacle & Incident Event Bus**
+
+  * **Type:** Interface / message bus (logical)
+  * **Responsibilities:** Consolidate perception and safety events (obstacles, near-misses, collisions) for downstream processing.
+  * **Upstream dependencies:** Receives events from robots’ Onboard Perception, Fixed Safety Lidar, and HMI (manual incident reports).
+  * **Downstream dependencies:** Feeds Exception Handling Service, Monitoring, Data Warehouse.
+  * **Interfaces:**
+
+    * Kafka topics `events.obstacles`, `events.incidents`
+    * Schema registry enforcing event formats
+
+* **S4 – Human–Machine Interface (HMI) Console**
+
+  * **Type:** Software / human role
+  * **Responsibilities:** Provide operators with maps, robot states, alerts, and controls (pause zone, reroute tasks, acknowledge alarms).
+  * **Upstream dependencies:** Reads status from Fleet Supervisor, Workflow Orchestrator, Safety Controller, Monitoring.
+  *
+----------------
+TEXT CHUNK END

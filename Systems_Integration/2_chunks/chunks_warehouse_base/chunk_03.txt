@@ -1,0 +1,59 @@
+`/plan-route` for route requests
+    * Subscription to `safety.zone_status` topic
+    * gRPC stream to each robot for continuous trajectory updates
+
+* **F6 – Fleet Supervisor Service**
+
+  * **Type:** Software service
+  * **Responsibilities:** Assign tasks to robots, track their execution, enforce fleet-level policies (max robots per zone, charging thresholds).
+  * **Upstream dependencies:** Receives tasks from Workflow Orchestrator and robot capabilities from Configuration Store.
+  * **Downstream dependencies:** Dispatches missions to Path Planning & Traffic Manager and Robot Firmware; pushes status updates to Warehouse Orchestration.
+  * **Interfaces:**
+
+    * Message queue topics: `tasks.assigned`, `tasks.progress`
+    * REST API `/robots/{id}/mission`
+    * WebSocket/Server-Sent Events to HMI Console for live status
+
+* **F7 – Docking/Charging Stations**
+
+  * **Type:** Hardware
+  * **Responsibilities:** Provide automated charging and parking for robots; optionally perform data offload and software updates.
+  * **Upstream dependencies:** Receives docking schedules from Fleet Supervisor and power from facility electrical system.
+  * **Downstream dependencies:** Reports charge status and station availability to Fleet Supervisor and Monitoring.
+  * **Interfaces:**
+
+    * Modbus/TCP or proprietary protocol over Ethernet to edge controllers
+    * Digital I/O for contactors and safety interlocks
+
+---
+
+### 2. Warehouse Orchestration Subsystem Components
+
+* **O1 – Order Ingestion Adapter**
+
+  * **Type:** Software service / interface
+  * **Responsibilities:** Normalize and validate inbound work orders from external WMS/ERP systems.
+  * **Upstream dependencies:** Calls external WMS/ERP APIs or receives EDI/XML/JSON messages.
+  * **Downstream dependencies:** Emits normalized `Order` objects to Task Decomposition Engine and updates Inventory State Store with requested moves.
+  * **Interfaces:**
+
+    * REST/SOAP or message queue (e.g., JMS) to WMS/ERP
+    * Internal Kafka topic `orders.raw` ➜ `orders.normalized`
+
+* **O2 – Task Decomposition Engine**
+
+  * **Type:** Software service
+  * **Responsibilities:** Break high-level orders (e.g., wave picks, replenishments) into atomic tasks (go to location, pick SKU, drop at dock).
+  * **Upstream dependencies:** Consumes normalized orders from Order Ingestion Adapter and inventory constraints from Inventory State Store.
+  * **Downstream dependencies:** Publishes task graph to Workflow Orchestrator and Task Allocator.
+  * **Interfaces:**
+
+    * Internal REST API `/orders/{id}/decompose`
+    * Message topic `tasks.generated` with task DAG
+
+* **O3 – Task Allocator/Optimizer**
+
+  * **Type:** Software service
+  * **Responsibilities:** Assign tasks to robots based on location, battery, load capacity, and SLAs; optimize for throughput and travel distance.
+  * **Upstream dependencies:** Receives pending tasks from Workflow Orchestrator and robot status from Fleet Supervisor.
+  * **Downstream dependencies:** Sends assignment

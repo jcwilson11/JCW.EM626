@@ -1,0 +1,29 @@
+* Conversely, zones may be erroneously marked unsafe, halting operations unnecessarily and reducing throughput.
+
+5. **Configuration Inconsistency Across Subsystems**
+
+   * **Description:** **Configuration & Feature Flag Store** fails to correctly propagate or validate updates (e.g., layout changes, speed limits).
+   * **Impact:**
+
+     * Path Planning may use a different layout than Localization or Inventory; robots could attempt to travel through non-existent aisles.
+     * Mixed configurations (some robots updated, others not) create non-deterministic behavior and intermittent errors.
+     * Rollback procedures may be slow or unclear, leading to extended degraded operation.
+
+6. **Inventory State Divergence Between Warehouse System and WMS**
+
+   * **Description:** Failures in the WMS/ERP Interface Gateway, CDC streams, or error handling during peak load cause missed or duplicated updates.
+   * **Impact:**
+
+     * WMS may show inventory that is not physically present or vice versa.
+     * Subsequent orders are planned on incorrect assumptions, leading to more exceptions and manual re-work.
+     * Regulatory or customer audit concerns if traceability is lost.
+
+7. **Simulation vs. Production Environment Drift**
+
+   * **Description:** **Simulation/Test Harness** does not accurately mirror production message schemas, configurations, or load patterns.
+   * **Impact:**
+
+     * Changes that pass simulation can still fail in production due to untested integration realities.
+     * Over-confidence in tests can lead to riskier rollouts and more disruptive incidents.
+
+This mini-manual provides a structured baseline for further design artifacts (interface specs, safety cases, test plans). You can extend any component into a deeper spec (e.g., message schemas or state machines) as a next step.

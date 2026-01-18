@@ -1,0 +1,114 @@
+Epoch 020 | Loss 0.6972 | Train Acc 0.747 | Val Acc 0.538 | Test Acc 0.741
+Epoch 040 | Loss 0.6416 | Train Acc 0.759 | Val Acc 0.692 | Test Acc 0.741
+Epoch 060 | Loss 0.5106 | Train Acc 0.835 | Val Acc 0.692 | Test Acc 0.741
+Epoch 080 | Loss 0.5527 | Train Acc 0.861 | Val Acc 0.654 | Test Acc 0.815
+Epoch 100 | Loss 0.5959 | Train Acc 0.835 | Val Acc 0.615 | Test Acc 0.852
+Epoch 120 | Loss 0.5795 | Train Acc 0.823 | Val Acc 0.769 | Test Acc 0.778
+Epoch 140 | Loss 0.6637 | Train Acc 0.835 | Val Acc 0.654 | Test Acc 0.815
+Early stopping at epoch 141 (no val improvement for 100 epochs).
+Wrote updated graph with GNN predictions to warehouse_graph_with_gnn.json
+Epoch 020 | Loss 0.7239 | Train Acc 0.709 | Val Acc 0.577 | Test Acc 0.778
+Epoch 040 | Loss 0.6684 | Train Acc 0.772 | Val Acc 0.577 | Test Acc 0.741
+Epoch 060 | Loss 0.6248 | Train Acc 0.785 | Val Acc 0.538 | Test Acc 0.741
+Epoch 080 | Loss 0.4862 | Train Acc 0.810 | Val Acc 0.615 | Test Acc 0.778
+Epoch 100 | Loss 0.5238 | Train Acc 0.810 | Val Acc 0.615 | Test Acc 0.852
+Epoch 120 | Loss 0.5396 | Train Acc 0.810 | Val Acc 0.615 | Test Acc 0.741
+Epoch 140 | Loss 0.4766 | Train Acc 0.835 | Val Acc 0.654 | Test Acc 0.852
+Epoch 160 | Loss 0.4585 | Train Acc 0.797 | Val Acc 0.615 | Test Acc 0.815
+Epoch 180 | Loss 0.4705 | Train Acc 0.823 | Val Acc 0.692 | Test Acc 0.889
+Epoch 200 | Loss 0.5691 | Train Acc 0.823 | Val Acc 0.769 | Test Acc 0.815
+Epoch 220 | Loss 0.4571 | Train Acc 0.861 | Val Acc 0.654 | Test Acc 0.815
+Epoch 240 | Loss 0.5504 | Train Acc 0.797 | Val Acc 0.654 | Test Acc 0.889
+Early stopping at epoch 249 (no val improvement for 100 epochs).
+Wrote updated graph with GNN predictions to warehouse_graph_with_gnn.json
+Epoch 020 | Loss 0.7426 | Train Acc 0.684 | Val Acc 0.692 | Test Acc 0.667
+Epoch 040 | Loss 0.6417 | Train Acc 0.759 | Val Acc 0.692 | Test Acc 0.741
+Epoch 060 | Loss 0.6689 | Train Acc 0.785 | Val Acc 0.731 | Test Acc 0.778
+Epoch 080 | Loss 0.5277 | Train Acc 0.785 | Val Acc 0.769 | Test Acc 0.815
+Epoch 100 | Loss 0.5814 | Train Acc 0.823 | Val Acc 0.808 | Test Acc 0.815
+Epoch 120 | Loss 0.6416 | Train Acc 0.823 | Val Acc 0.731 | Test Acc 0.815
+Epoch 140 | Loss 0.5091 | Train Acc 0.835 | Val Acc 0.731 | Test Acc 0.815
+Epoch 160 | Loss 0.4892 | Train Acc 0.823 | Val Acc 0.731 | Test Acc 0.778
+Epoch 180 | Loss 0.5600 | Train Acc 0.797 | Val Acc 0.731 | Test Acc 0.815
+Epoch 200 | Loss 0.5189 | Train Acc 0.848 | Val Acc 0.769 | Test Acc 0.815
+Epoch 220 | Loss 0.5741 | Train Acc 0.823 | Val Acc 0.692 | Test Acc 0.741
+Epoch 240 | Loss 0.6724 | Train Acc 0.797 | Val Acc 0.731 | Test Acc 0.741
+Early stopping at epoch 253 (no val improvement for 100 epochs).
+Wrote updated graph with GNN predictions to warehouse_graph_with_gnn.json
+Epoch 020 | Loss 0.8020 | Train Acc 0.646 | Val Acc 0.846 | Test Acc 0.852
+Epoch 040 | Loss 0.7569 | Train Acc 0.759 | Val Acc 0.769 | Test Acc 0.852
+Epoch 060 | Loss 0.6991 | Train Acc 0.722 | Val Acc 0.808 | Test Acc 0.815
+Epoch 080 | Loss 0.6979 | Train Acc 0.785 | Val Acc 0.769 | Test Acc 0.815
+Epoch 100 | Loss 0.5423 | Train Acc 0.810 | Val Acc 0.769 | Test Acc 0.889
+Epoch 120 | Loss 0.6171 | Train Acc 0.823 | Val Acc 0.769 | Test Acc 0.889
+Epoch 140 | Loss 0.5188 | Train Acc 0.873 | Val Acc 0.769 | Test Acc 0.889
+Epoch 160 | Loss 0.5185 | Train Acc 0.899 | Val Acc 0.769 | Test Acc 0.852
+Epoch 180 | Loss 0.6298 | Train Acc 0.835 | Val Acc 0.615 | Test Acc 0.778
+Epoch 200 | Loss 0.5192 | Train Acc 0.810 | Val Acc 0.692 | Test Acc 0.852
+Early stopping at epoch 214 (no val improvement for 100 epochs).
+Wrote updated graph with GNN predictions to warehouse_graph_with_gnn.json
+Epoch 020 | Loss 0.7713 | Train Acc 0.658 | Val Acc 0.692 | Test Acc 0.667
+Epoch 040 | Loss 0.5879 | Train Acc 0.696 | Val Acc 0.692 | Test Acc 0.704
+Epoch 060 | Loss 0.7061 | Train Acc 0.823 | Val Acc 0.808 | Test Acc 0.815
+Epoch 080 | Loss 0.6844 | Train Acc 0.823 | Val Acc 0.731 | Test Acc 0.815
+Epoch 100 | Loss 0.5237 | Train Acc 0.810 | Val Acc 0.808 | Test Acc 0.778
+Epoch 120 | Loss 0.5596 | Train Acc 0.810 | Val Acc 0.731 | Test Acc 0.778
+Epoch 140 | Loss 0.4788 | Train Acc 0.861 | Val Acc 0.808 | Test Acc 0.704
+Epoch 160 | Loss 0.4232 | Train Acc 0.861 | Val Acc 0.769 | Test Acc 0.778
+Epoch 180 | Loss 0.4810 | Train Acc 0.861 | Val Acc 0.808 | Test Acc 0.741
+Epoch 200 | Loss 0.4580 | Train Acc 0.848 | Val Acc 0.808 | Test Acc 0.741
+Early stopping at epoch 204 (no val improvement for 100 epochs).
+Wrote updated graph with GNN predictions to warehouse_graph_with_gnn.json
+Epoch 020 | Loss 0.6848 | Train Acc 0.747 | Val Acc 0.462 | Test Acc 0.704
+Epoch 040 | Loss 0.6656 | Train Acc 0.759 | Val Acc 0.462 | Test Acc 0.741
+Epoch 060 | Loss 0.5563 | Train Acc 0.810 | Val Acc 0.654 | Test Acc 0.741
+Epoch 080 | Loss 0.4959 | Train Acc 0.785 | Val Acc 0.615 | Test Acc 0.741
+Epoch 100 | Loss 0.5509 | Train Acc 0.861 | Val Acc 0.654 | Test Acc 0.815
+Epoch 120 | Loss 0.4721 | Train Acc 0.810 | Val Acc 0.692 | Test Acc 0.741
+Epoch 140 | Loss 0.4587 | Train Acc 0.722 | Val Acc 0.692 | Test Acc 0.741
+Epoch 160 | Loss 0.4854 | Train Acc 0.810 | Val Acc 0.615 | Test Acc 0.778
+Epoch 180 | Loss 0.3158 | Train Acc 0.848 | Val Acc 0.615 | Test Acc 0.778
+Epoch 200 | Loss 0.4527 | Train Acc 0.886 | Val Acc 0.692 | Test Acc 0.778
+Epoch 220 | Loss 0.4300 | Train Acc 0.873 | Val Acc 0.692 | Test Acc 0.815
+Early stopping at epoch 222 (no val improvement for 100 epochs).
+Wrote updated graph with GNN predictions to warehouse_graph_with_gnn.json
+Epoch 020 | Loss 0.8717 | Train Acc 0.709 | Val Acc 0.769 | Test Acc 0.852
+Epoch 040 | Loss 0.8080 | Train Acc 0.810 | Val Acc 0.692 | Test Acc 0.852
+Epoch 060 | Loss 0.6835 | Train Acc 0.734 | Val Acc 0.769 | Test Acc 0.741
+Epoch 080 | Loss 0.5686 | Train Acc 0.823 | Val Acc 0.769 | Test Acc 0.741
+Epoch 100 | Loss 0.6084 | Train Acc 0.861 | Val Acc 0.846 | Test Acc 0.778
+Epoch 120 | Loss 0.5929 | Train Acc 0.873 | Val Acc 0.885 | Test Acc 0.778
+Epoch 140 | Loss 0.5620 | Train Acc 0.899 | Val Acc 0.846 | Test Acc 0.704
+Early stopping at epoch 154 (no val improvement for 100 epochs).
+Wrote updated graph with GNN predictions to warehouse_graph_with_gnn.json
+Epoch 020 | Loss 0.6918 | Train Acc 0.747 | Val Acc 0.846 | Test Acc 0.481
+Epoch 040 | Loss 0.6486 | Train Acc 0.785 | Val Acc 0.846 | Test Acc 0.519
+Epoch 060 | Loss 0.6477 | Train Acc 0.772 | Val Acc 0.731 | Test Acc 0.667
+Epoch 080 | Loss 0.5443 | Train Acc 0.810 | Val Acc 0.808 | Test Acc 0.593
+Epoch 100 | Loss 0.5431 | Train Acc 0.810 | Val Acc 0.808 | Test Acc 0.667
+Epoch 120 | Loss 0.4996 | Train Acc 0.835 | Val Acc 0.808 | Test Acc 0.667
+Early stopping at epoch 120 (no val improvement for 100 epochs).
+Wrote updated graph with GNN predictions to warehouse_graph_with_gnn.json
+Epoch 020 | Loss 0.7595 | Train Acc 0.658 | Val Acc 0.846 | Test Acc 0.630
+Epoch 040 | Loss 0.6729 | Train Acc 0.684 | Val Acc 0.846 | Test Acc 0.630
+Epoch 060 | Loss 0.7307 | Train Acc 0.785 | Val Acc 0.923 | Test Acc 0.704
+Epoch 080 | Loss 0.6003 | Train Acc 0.835 | Val Acc 0.846 | Test Acc 0.556
+Epoch 100 | Loss 0.5668 | Train Acc 0.747 | Val Acc 0.808 | Test Acc 0.667
+Epoch 120 | Loss 0.5728 | Train Acc 0.785 | Val Acc 0.885 | Test Acc 0.741
+Epoch 140 | Loss 0.6396 | Train Acc 0.785 | Val Acc 0.846 | Test Acc 0.667
+Epoch 160 | Loss 0.5184 | Train Acc 0.797 | Val Acc 0.808 | Test Acc 0.630
+Early stopping at epoch 161 (no val improvement for 100 epochs).
+Wrote updated graph with GNN predictions to warehouse_graph_with_gnn.json
+Epoch 020 | Loss 0.8217 | Train Acc 0.709 | Val Acc 0.654 | Test Acc 0.704
+Epoch 040 | Loss 0.6317 | Train Acc 0.734 | Val Acc 0.577 | Test Acc 0.667
+Epoch 060 | Loss 0.5653 | Train Acc 0.747 | Val Acc 0.654 | Test Acc 0.667
+Epoch 080 | Loss 0.4954 | Train Acc 0.823 | Val Acc 0.654 | Test Acc 0.667
+Epoch 100 | Loss 0.5182 | Train Acc 0.848 | Val Acc 0.731 | Test Acc 0.741
+Epoch 120 | Loss 0.6113 | Train Acc 0.823 | Val Acc 0.692 | Test Acc 0.704
+Epoch 140 | Loss 0.5281 | Train Acc 0.835 | Val Acc 0.615 | Test Acc 0.704
+Epoch 160 | Loss 0.6673 | Train Acc 0.873 | Val Acc 0.692 | Test Acc 0.741
+Epoch 180 | Loss 0.4279 | Train Acc 0.886 | Val Acc 0.654 | Test Acc 0.704
+Epoch 200 | Loss 0.5032 | Train Acc 0.899 | Val Acc 0.654 | Test Acc 0.741
+Epoch 220 | Loss 0.4967 | Train Acc 0.873 | Val Acc 0.615 | Test Acc 0.741
+Early stopping at epoch 229 (no val improvement for 100 epochs).
+Wrote updated graph with GNN predictions to warehouse_graph_with_gnn.json
